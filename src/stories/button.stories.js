@@ -19,5 +19,5 @@ export const Emoji = () => (
 );
 
 export const Primary = () => (
-  <ButtonPrimary />
+  <ButtonPrimary className="text-center" />
 );
