@@ -11,7 +11,7 @@ const TextCard = ({ className, children }) => (
 )
 
 
-export const Colors = () => (
+export const Typography = () => (
   <div>
     <TextCard className="heading-1">heading-1</TextCard>
     <TextCard className="heading-2">heading-2</TextCard>
