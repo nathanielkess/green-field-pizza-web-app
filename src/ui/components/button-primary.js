@@ -2,4 +2,6 @@ import React from 'react';
 
 export const ButtonPrimary = ({
   className = '',
-}) => <div className={`max-w-sm rounded shadow-lg px-6 py-4 ${className}`}>button primary</div>
+  onClick = () => {},
+  children,
+}) => <button onClick={onClick} className={`max-w-sm rounded-lg shadow-lg px-6 py-4 bg-orange-m text-white copy-bold ${className}`}>{children}</button>
