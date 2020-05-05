@@ -1,5 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather&family=Merriweather+Sans:wght@400;700&display=swap');
+
 @tailwind base;
 
 @tailwind components;
 
 @tailwind utilities;
+
+@responsive {
+  .heading-1 {
+    font-family: "Merriweather", serif;
+    font-weight: 400;
+    font-size: 3rem;
+  }
+  .heading-2 {
+    font-family: "Merriweather", serif;
+    font-weight: 400;
+    font-size: 2rem;
+  }
+  .copy {
+    font-family: 'Merriweather Sans', sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+  }
+  .copy-bold {
+    font-family: 'Merriweather Sans', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+  .emphasize {
+    font-family: "Merriweather", serif;
+    font-weight: 400;
+    font-size: 1rem;
+  }
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import { Button } from '@storybook/react/demo';
+import { ButtonPrimary } from '../ui/components/button-primary';
 
 export default {
   title: 'Button',
@@ -15,4 +16,8 @@ export const Emoji = () => (
       😀 😎 👍 💯
     </span>
   </Button>
+);
+
+export const Primary = () => (
+  <ButtonPrimary />
 );
