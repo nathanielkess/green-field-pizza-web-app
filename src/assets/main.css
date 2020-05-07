@@ -10757,6 +10757,12 @@ video {
   font-size: 2rem;
 }
 
+.heading-3 {
+  font-family: "Merriweather", serif;
+  font-weight: 400;
+  font-size: 1.3rem;
+}
+
 .copy {
   font-family: 'Merriweather Sans', sans-serif;
   font-weight: 400;
@@ -20923,6 +20929,12 @@ video {
     font-family: "Merriweather", serif;
     font-weight: 400;
     font-size: 2rem;
+  }
+
+  .sm\:heading-3 {
+    font-family: "Merriweather", serif;
+    font-weight: 400;
+    font-size: 1.3rem;
   }
 
   .sm\:copy {
@@ -31094,6 +31106,12 @@ video {
     font-size: 2rem;
   }
 
+  .md\:heading-3 {
+    font-family: "Merriweather", serif;
+    font-weight: 400;
+    font-size: 1.3rem;
+  }
+
   .md\:copy {
     font-family: 'Merriweather Sans', sans-serif;
     font-weight: 400;
@@ -41263,6 +41281,12 @@ video {
     font-size: 2rem;
   }
 
+  .lg\:heading-3 {
+    font-family: "Merriweather", serif;
+    font-weight: 400;
+    font-size: 1.3rem;
+  }
+
   .lg\:copy {
     font-family: 'Merriweather Sans', sans-serif;
     font-weight: 400;
@@ -51430,6 +51454,12 @@ video {
     font-family: "Merriweather", serif;
     font-weight: 400;
     font-size: 2rem;
+  }
+
+  .xl\:heading-3 {
+    font-family: "Merriweather", serif;
+    font-weight: 400;
+    font-size: 1.3rem;
   }
 
   .xl\:copy {

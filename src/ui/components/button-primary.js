@@ -4,4 +4,4 @@ export const ButtonPrimary = ({
   className = '',
   onClick = () => {},
   children,
-}) => <button onClick={onClick} className={`max-w-sm rounded-lg shadow-lg px-6 py-4 bg-orange-m text-white copy-bold ${className}`}>{children}</button>
+}) => <button onClick={onClick} className={`max-w-sm rounded-lg px-6 py-4 bg-orange-m text-white copy-bold ${className}`}>{children}</button>

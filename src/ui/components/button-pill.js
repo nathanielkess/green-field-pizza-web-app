@@ -5,4 +5,4 @@ export const ButtonPill = ({
   onClick = () => {},
   isOn = false,
   children,
-}) => <button onClick={onClick} className={`max-w-sm rounded-lg shadow-lg px-3 py-1 bg-gray-m text-black copy ${(isOn)?'bg-yellow-m':'bg-grey-m'} ${className}`}>{children}</button>
+}) => <button onClick={onClick} className={`whitespace-no-wrap max-w-sm rounded-lg px-3 py-1 bg-gray-m text-black copy ${(isOn)?'bg-yellow-m':'bg-grey-m'} ${className}`}>{children}</button>
