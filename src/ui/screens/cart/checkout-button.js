@@ -6,10 +6,11 @@ import { colors } from '../../styles';
 export const CheckoutButton = ({
   count = 0,
   className = '',
+  onClick = () => {},
 }) => 
   <div className={`inline-flex items-center ${className}`}>
     {count}
-    <ButtonIcon className="ml-2" Icon={<IconMotorcycle color={colors.white} width={30} height={30} />}>
+    <ButtonIcon onClick={onClick} className="ml-2" Icon={<IconMotorcycle color={colors.white} width={30} height={30} />}>
       Checkout
     </ButtonIcon>
   </div>

@@ -39,16 +39,8 @@ export default ({
       return a + c.price
     }, basePrice);
 
-  // const centsToCurrency = (cents) => new Intl.NumberFormat('en-US', {
-  //   style: 'currency',
-  //   currency: 'USD',
-  //   minimumFractionDigits: 2,
-  // }).format(cents * .01);
 
-  const addToOrder = () => {
-    onAddToOrder({ price: getTotal() });
-  }
-
+  const addToOrder = () => onAddToOrder({ price: getTotal() });
 
   return (
     <div className={className}>

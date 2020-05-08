@@ -2,7 +2,6 @@ import React from 'react';
 import {useStripe, useElements, CardElement} from '@stripe/react-stripe-js';
 
 
-import { CardSection } from './card-section';
 
 export default function CheckoutForm() {
   const stripe = useStripe();
@@ -41,7 +40,10 @@ export default function CheckoutForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <CardSection />
+      <label>
+        Card details
+        <CardElement />
+      </label>
       <button disabled={!stripe}>Confirm order</button>
     </form>
   );
