@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion'
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
@@ -27,6 +27,10 @@ const grayedOut = {
 
 function App() {
 
+  useEffect(() => {
+    document.body.style.overflowX = 'hidden';
+  }, []);
+
   const [orderItems, setOrderItems] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -37,6 +41,7 @@ function App() {
       item,
     ])
   }
+  
   
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -49,7 +54,8 @@ function App() {
       <Elements stripe={stripePromise}>
         <div className="z-10 relative flex flex-col">
           <div className="self-center max-w-xl">
-            <BuildPizza pizza={selectedPizza} className="mt-64" onAddToOrder={addToOrder} />
+            <img className="fixed bottom-0 z-0" style={{ right: '50%', marginBottom: -400, marginRight: 240 }} src={require('./assets/big-pizza.png')} alt="Pizza" />
+            <BuildPizza pizza={selectedPizza} className="mt-64 relative z-10" onAddToOrder={addToOrder} />
           </div>
         </div>
         <motion.div onClick={toggleMenu} variants={grayedOut} initial="hidden" animate={isMenuOpen ? 'visible': 'hidden'} className="absolute right-0 top-0 bottom-0 left-0 bg-black z-0"></motion.div>
