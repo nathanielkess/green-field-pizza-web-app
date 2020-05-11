@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion'
-import './App.css';
-import BuildPizza from './ui/screens/build-pizza/build-pizza-screen';
-import SelectPizza from './ui/screens/select-pizza';
-import {Elements} from '@stripe/react-stripe-js';
-import {loadStripe} from '@stripe/stripe-js';
-import { CheckoutForm } from './ui/checkout-form';
-import { CheckoutButton } from './ui/screens/cart/checkout-button';
-import { IconX } from './ui/components/icon-x';
-import { colors } from './ui/styles';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+
+import { IconX } from './../design-system/components/icon-x';
+import { colors } from './../design-system/styles';
+
+import { CheckoutButton, CheckoutForm } from './../modules/cart'
+import { BuildPizza } from './../modules/products';
 
 const stripePromise = loadStripe("pk_test_rKarX4mhDwJwrWlfc6yUnoQh00qraD4ezM");
 

@@ -1,4 +1,4 @@
-const colors = require('./ui/styles/color.config');
+const colors = require('./color.config');
 
 module.exports = {
   prefix: '',

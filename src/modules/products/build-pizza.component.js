@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import { ButtonPill } from '../../components/button-pill';
-import { ButtonPrimary } from '../../components/button-primary';
-import { orderPizza } from './../../../api/order';
-import { centsToCurrency } from '../../../utils/cents-to-currency';
+import React, { useState } from 'react'
+import { ButtonPill } from './../../design-system/components/button-pill';
+import { ButtonPrimary } from './../../design-system/components/button-primary';
+
+import { centsToCurrency } from './../utils/cents-to-currency';
 
 
 
 
-export default ({
+export const BuildPizza = ({
   className = "",
   pizza = { name: "The Greek", price: 1399 },
   onAddToOrder = () => {},

@@ -1,12 +1,12 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import { Button } from '@storybook/react/demo';
-import { ButtonPrimary } from '../ui/components/button-primary';
-import { ButtonPill } from '../ui/components/button-pill';
-import { ButtonSecondary } from '../ui/components/button-secondary';
-import { IconMotorcycle } from './../ui/components/icon-motorcycle';
-import { colors } from './../ui/styles'
-import { ButtonIcon } from '../ui/components/button-icon';
+import { ButtonPrimary } from './../components/button-primary';
+import { ButtonPill } from './../components/button-pill';
+import { ButtonSecondary } from './../components/button-secondary';
+import { IconMotorcycle } from '././../components/icon-motorcycle';
+import { colors } from './../styles'
+import { ButtonIcon } from './../components/button-icon';
 
 export default {
   title: 'Button',

@@ -1,8 +1,6 @@
 import React from 'react';
 import {useStripe, useElements, CardElement,  } from '@stripe/react-stripe-js';
-import { ButtonPrimary } from './components/button-primary';
-import { ButtonSecondary } from './components/button-secondary';
-import { centsToCurrency } from '../utils/cents-to-currency';
+import { centsToCurrency } from './../utils/cents-to-currency';
 
 
 const CreatePaymentEndPoint = 'http://ec2-34-227-31-122.compute-1.amazonaws.com:3000/create-payment-intent';
