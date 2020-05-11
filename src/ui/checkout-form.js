@@ -4,8 +4,8 @@ import { ButtonPrimary } from './components/button-primary';
 import { ButtonSecondary } from './components/button-secondary';
 
 
-// const CreatePaymentEndPoint = 'http://ec2-34-227-31-122.compute-1.amazonaws.com:3000/create-payment-intent';
-const CreatePaymentEndPoint = 'http://localhost:3001/create-payment-intent';
+const CreatePaymentEndPoint = 'http://ec2-34-227-31-122.compute-1.amazonaws.com:3000/create-payment-intent';
+// const CreatePaymentEndPoint = 'http://localhost:3001/create-payment-intent';
 
 export default function CheckoutForm() {
   const stripe = useStripe();
@@ -17,12 +17,11 @@ export default function CheckoutForm() {
     const name = 'John Green';
 
     try {
-      const response = await fetch(CreatePaymentEndPoint, {
+      await fetch(CreatePaymentEndPoint, {
         method: "POST",
         headers: {
-          Accept: 'application/json',
+          'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'User-Agent': 'PostmanRuntime/7.24.1'
         },
         body: JSON.stringify({
           name: name,
@@ -30,56 +29,22 @@ export default function CheckoutForm() {
           addressDelivery: '121 Happy Street',
         })
       });
-      console.log('name is 1', name);
-      const {clientSecret} = await response.json();
-      console.log('client secret is', {response, clientSecret});
 
 
-
-      console.log('name is 2', name);
-      const result = await stripe.createPaymentMethod({
+      await stripe.createPaymentMethod({
         type: 'card',
         card: elements.getElement(CardElement),
         billing_details: {
           name: name,
         },
+      }).then(() => {
+        console.log('success!');
       })
-      .then(function(result) {
-        console.log('did I do a pending payment??', result)
-      });
-
-      // const result = await stripe.confirmCardPayment(clientSecret, {
-      //   payment_method: {
-      //     card: elements.getElement(CardElement),
-      //     billing_details: {
-      //       name: name,
-      //     },
-      //   }
-      // });
-
-      console.log('successful payment!!', {result});
 
     } catch (error) {
       console.log('Create payment error', error);
     }
 
-
-
- 
-
-    // if (result.error) {
-    //   // Show error to your customer (e.g., insufficient funds)
-    //   console.log(result.error.message);
-    // } else {
-    //   // The payment has been processed!
-    //   if (result.paymentIntent.status === 'succeeded') {
-    //     // Show a success message to your customer
-    //     // There's a risk of the customer closing the window before callback
-    //     // execution. Set up a webhook or plugin to listen for the
-    //     // payment_intent.succeeded event that handles any business critical
-    //     // post-payment actions.
-    //   }
-    // }
   };
 
 
