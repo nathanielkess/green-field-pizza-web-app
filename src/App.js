@@ -5,7 +5,7 @@ import BuildPizza from './ui/screens/build-pizza/build-pizza-screen';
 import SelectPizza from './ui/screens/select-pizza';
 import {Elements} from '@stripe/react-stripe-js';
 import {loadStripe} from '@stripe/stripe-js';
-import CheckoutForm from './ui/checkout-form';
+import { CheckoutForm } from './ui/checkout-form';
 import { CheckoutButton } from './ui/screens/cart/checkout-button';
 import { IconX } from './ui/components/icon-x';
 import { colors } from './ui/styles';
@@ -29,9 +29,10 @@ const grayedOut = {
 function App() {
 
   const [orderItems, setOrderItems] = useState([]);
-  const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const addToOrder = (item) => {
+
     setOrderItems([
       ...orderItems,
       item,
@@ -39,6 +40,7 @@ function App() {
   }
   
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  
 
   
   return (
@@ -53,7 +55,9 @@ function App() {
         <CheckoutButton onClick={toggleMenu} className="absolute z-10 right-0 top-0 mr-8 mt-8" count={orderItems.length} />
         <motion.div variants={menu} initial="hidden" animate={isMenuOpen ? 'visible': 'hidden'} className="z-10 p-4 absolute right-0 top-0 bottom-0 bg-white" style={{ width: 500 }}>
           <button onClick={toggleMenu} ><IconX color={colors.black} /></button>
-          <CheckoutForm />
+          <div className="p-12">
+            <CheckoutForm items={orderItems} />
+          </div>
         </motion.div>
       </Elements>
     </div>

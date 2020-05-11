@@ -9,7 +9,7 @@ import { centsToCurrency } from '../../../utils/cents-to-currency';
 
 export default ({
   className = "",
-  basePrice = 1300,
+  pizza = { name: "The Greek", price: 1399 },
   onAddToOrder = () => {},
 }) => {
   
@@ -34,17 +34,24 @@ export default ({
   }
 
   const getTotal = () => toppings
-    .filter(({selected}) => selected)
+    .filter(topping => topping.selected)
     .reduce((a, c) => {
       return a + c.price
-    }, basePrice);
+    }, pizza.price);
 
 
-  const addToOrder = () => onAddToOrder({ price: getTotal() });
+  const addToOrder = () => { 
+    const item = {
+      name: pizza.name,
+      price: pizza.price,
+      subItems: toppings.filter(topping => topping.selected)
+    }
+    onAddToOrder(item); 
+  }
 
   return (
     <div className={className}>
-      <p className="heading-1">The Greek</p>
+      <p className="heading-1">{pizza.name}</p>
       <div className="flex flex-wrap mt-4">
         { toppings.map((topping, i) => 
           <ButtonPill key={i} onClick={toggleTopping(i)} isOn={topping.selected} className="mr-4 mt-4">{topping.name}</ButtonPill>
