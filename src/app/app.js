@@ -7,7 +7,7 @@ import { IconX } from './../design-system/components/icon-x';
 import { colors } from './../design-system/styles';
 
 import { CheckoutButton, CheckoutForm } from './../modules/cart'
-import { BuildPizza } from './../modules/products';
+import { BuildPizza, pizzas } from './../modules/products';
 
 const stripePromise = loadStripe("pk_test_rKarX4mhDwJwrWlfc6yUnoQh00qraD4ezM");
 
@@ -39,6 +39,8 @@ function App() {
   }
   
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  const selectedPizza = pizzas[0];
   
 
   
@@ -47,7 +49,7 @@ function App() {
       <Elements stripe={stripePromise}>
         <div className="z-10 relative flex flex-col">
           <div className="self-center max-w-xl">
-            <BuildPizza className="mt-64" onAddToOrder={addToOrder} />
+            <BuildPizza pizza={selectedPizza} className="mt-64" onAddToOrder={addToOrder} />
           </div>
         </div>
         <motion.div onClick={toggleMenu} variants={grayedOut} initial="hidden" animate={isMenuOpen ? 'visible': 'hidden'} className="absolute right-0 top-0 bottom-0 left-0 bg-black z-0"></motion.div>
