@@ -1,27 +1,71 @@
 import React from 'react';
 import {useStripe, useElements, CardElement} from '@stripe/react-stripe-js';
+import { ButtonPrimary } from './components/button-primary';
+import { ButtonSecondary } from './components/button-secondary';
 
 
+// const CreatePaymentEndPoint = 'http://ec2-34-227-31-122.compute-1.amazonaws.com:3000/create-payment-intent';
+const CreatePaymentEndPoint = 'http://localhost:3001/create-payment-intent';
 
 export default function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
 
   const handleSubmit = async (event) => {
-    // We don't want to let default form submission happen here,
-    // which would refresh the page.
     event.preventDefault();
 
+    const name = 'John Green';
+
+    try {
+      const response = await fetch(CreatePaymentEndPoint, {
+        method: "POST",
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'User-Agent': 'PostmanRuntime/7.24.1'
+        },
+        body: JSON.stringify({
+          name: name,
+          hour: '5:00pm',
+          addressDelivery: '121 Happy Street',
+        })
+      });
+      console.log('name is 1', name);
+      const {clientSecret} = await response.json();
+      console.log('client secret is', {response, clientSecret});
 
 
-    // const result = await stripe.confirmCardPayment('{CLIENT_SECRET}', {
-    //   payment_method: {
-    //     card: elements.getElement(CardElement),
-    //     billing_details: {
-    //       name: 'Jenny Rosen',
-    //     },
-    //   }
-    // });
+
+      console.log('name is 2', name);
+      const result = await stripe.createPaymentMethod({
+        type: 'card',
+        card: elements.getElement(CardElement),
+        billing_details: {
+          name: name,
+        },
+      })
+      .then(function(result) {
+        console.log('did I do a pending payment??', result)
+      });
+
+      // const result = await stripe.confirmCardPayment(clientSecret, {
+      //   payment_method: {
+      //     card: elements.getElement(CardElement),
+      //     billing_details: {
+      //       name: name,
+      //     },
+      //   }
+      // });
+
+      console.log('successful payment!!', {result});
+
+    } catch (error) {
+      console.log('Create payment error', error);
+    }
+
+
+
+ 
 
     // if (result.error) {
     //   // Show error to your customer (e.g., insufficient funds)
@@ -38,13 +82,19 @@ export default function CheckoutForm() {
     // }
   };
 
+
+
+
+
+
   return (
     <form onSubmit={handleSubmit}>
       <label>
         Card details
         <CardElement />
       </label>
-      <button disabled={!stripe}>Confirm order</button>
+      {/* <ButtonSecondary disabled={!stripe}>Pay now</ButtonSecondary> */}
+      <button disabled={!stripe}>Pay Now</button>
     </form>
   );
 }
