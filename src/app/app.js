@@ -54,7 +54,7 @@ function App() {
       <Elements stripe={stripePromise}>
         <div className="z-10 relative flex flex-col">
           <div className="self-center max-w-xl">
-            <img className="fixed bottom-0 z-0" style={{ right: '50%', marginBottom: -400, marginRight: 240 }} src={require('./assets/big-pizza.png')} alt="Pizza" />
+            <img className="fixed bottom-0 z-0" style={{ right: '50%', marginBottom: -200, marginRight: 320 }} src={require('./assets/big-pizza.png')} alt="Pizza" />
             <BuildPizza pizza={selectedPizza} className="mt-64 relative z-10" onAddToOrder={addToOrder} />
           </div>
         </div>
