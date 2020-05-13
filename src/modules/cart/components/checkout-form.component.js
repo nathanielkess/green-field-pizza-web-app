@@ -6,6 +6,8 @@ import { centsToCurrency } from '../../utils/cents-to-currency';
 const CreatePaymentEndPoint = 'http://ec2-34-227-31-122.compute-1.amazonaws.com:3000/create-payment-intent';
 // const CreatePaymentEndPoint = 'http://localhost:3000/create-payment-intent';
 
+const createChargeEndPoint = 'http://localhost:3000/create-charge';
+
 const TwoUp = ({
   left,
   right,
@@ -55,41 +57,73 @@ export const CheckoutForm = ({ items = [] }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     const name = 'John Green';
 
+    // const r = await fetch(createChargeEndPoint, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json',
+    //     }
+    // });
+
+
     try {
-      await fetch(CreatePaymentEndPoint, {
-        method: "POST",
+      
+      const { token } = await stripe.createToken(elements.getElement(CardElement));
+      
+      await fetch(createChargeEndPoint, {
+        method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-        },
+          },
         body: JSON.stringify({
-          name: name,
+          token: token,
           hour: '5:00pm',
           addressDelivery: '121 Happy Street',
           total: summary.total,
         })
       });
-
-      console.log('cardObj', {card: elements.getElement(CardElement)})
-
-
-      await stripe.createPaymentMethod({
-        type: 'card',
-        card: elements.getElement(CardElement),
-        billing_details: {
-          name: name,
-        },
-      }).then(() => {
-        console.log('success!');
-      })
+      console.log('created!');
 
     } catch (error) {
-      console.log('Create payment error', error);
+      console.log('error!', {error});
     }
 
+
+  
+
+
+  //   try {
+  //     await fetch(CreatePaymentEndPoint, {
+  //       method: "POST",
+  //       headers: {
+  //         'Accept': 'application/json',
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({
+  //         name: name,
+  //         hour: '5:00pm',
+  //         addressDelivery: '121 Happy Street',
+  //         total: summary.total,
+  //       })
+  //     });
+
+
+  //     await stripe.createPaymentMethod({
+  //       type: 'card',
+  //       card: elements.getElement(CardElement),
+  //       billing_details: {
+  //         name: name,
+  //       },
+  //     }).then(() => {
+  //       console.log('success!');
+  //     })
+
+  //   } catch (error) {
+  //     console.log('Create payment error', error);
+  //   }
   };
 
   

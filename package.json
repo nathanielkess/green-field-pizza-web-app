@@ -9,6 +9,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "cross-env": "^7.0.2",
     "framer-motion": "^1.10.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -17,7 +18,7 @@
     "tailwind-config": "^0.1.2"
   },
   "scripts": {
-    "start": "npm run watch:css && react-scripts start",
+    "start": "npm run watch:css && cross-env PORT=3001 react-scripts start",
     "build": "npm run build:css && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
