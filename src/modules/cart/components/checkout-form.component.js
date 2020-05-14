@@ -3,16 +3,14 @@ import {useStripe, useElements, CardElement,  } from '@stripe/react-stripe-js';
 import { centsToCurrency } from '../../utils/cents-to-currency';
 
 
-const CreatePaymentEndPoint = 'http://ec2-34-227-31-122.compute-1.amazonaws.com:3000/create-payment-intent';
-// const CreatePaymentEndPoint = 'http://localhost:3000/create-payment-intent';
-
-const createChargeEndPoint = 'http://localhost:3000/create-charge';
+// const createPaymentEndPoint = 'http://ec2-34-227-31-122.compute-1.amazonaws.com:3000/payment/create';
+const createChargeEndPoint = 'http://localhost:3000/payment/create';
 
 const TwoUp = ({
   left,
   right,
   className = '',
-}) => 
+}) =>
   <div className={`flex justify-between ${className}`}>
     <div>{left}</div>
     <div>{right}</div>
@@ -27,7 +25,7 @@ const calculateTotal = (items) => {
 
 const CartItem = ({item, className }) =>
   <div className={`${className}`}>
-    <TwoUp 
+    <TwoUp
       left={<p className="copy-bold">{item.name}</p>}
       right={<p className="copy-bold">{ centsToCurrency(item.total)}</p>}
     />
@@ -48,8 +46,8 @@ export const CheckoutForm = ({ items = [] }) => {
     subTotal: subTotal,
     total: subTotal + deliveryFee,
     delivery: deliveryFee,
-    items: items.map((item) => ({ 
-      ...item, 
+    items: items.map((item) => ({
+      ...item,
       total: calculateTotal([item]) ,
       toppingsCount: item.subItems.length,
     }))
@@ -69,9 +67,9 @@ export const CheckoutForm = ({ items = [] }) => {
 
 
     try {
-      
+
       const { token } = await stripe.createToken(elements.getElement(CardElement));
-      
+
       await fetch(createChargeEndPoint, {
         method: 'POST',
         headers: {
@@ -92,7 +90,7 @@ export const CheckoutForm = ({ items = [] }) => {
     }
 
 
-  
+
 
 
   //   try {
@@ -126,7 +124,7 @@ export const CheckoutForm = ({ items = [] }) => {
   //   }
   };
 
-  
+
 
 
 
@@ -135,7 +133,7 @@ export const CheckoutForm = ({ items = [] }) => {
     <div>
       <p className="heading-2">Items</p>
       {
-        (items.length === 0) 
+        (items.length === 0)
           ? <p>Your cart is empty</p>
           : <>
             <div className="border-t border-gray-m pt-6 mt-6">
