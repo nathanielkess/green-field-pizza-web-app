@@ -7,6 +7,7 @@ module.exports = {
 
   gray: {
     m: '#C4C4C4',
+    l: "#E8E7E7",
   },
   red: {
     100: '#fff5f5',

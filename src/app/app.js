@@ -18,7 +18,7 @@ const menu = {
   hidden: { marginRight: -500 },
 }
 const grayedOut = {
-  visible: { opacity: .8, zIndex: 10,  },
+  visible: { opacity: .8, zIndex: 10, },
   hidden: { opacity: 0, zIndex: 0 }
 }
 
@@ -41,14 +41,14 @@ function App() {
       item,
     ])
   }
-  
-  
+
+
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const selectedPizza = pizzas[0];
-  
 
-  
+
+
   return (
     <div>
       <Elements stripe={stripePromise}>
@@ -58,9 +58,9 @@ function App() {
             <BuildPizza pizza={selectedPizza} className="mt-64 relative z-10" onAddToOrder={addToOrder} />
           </div>
         </div>
-        <motion.div onClick={toggleMenu} variants={grayedOut} initial="hidden" animate={isMenuOpen ? 'visible': 'hidden'} className="absolute right-0 top-0 bottom-0 left-0 bg-black z-0"></motion.div>
+        <motion.div onClick={toggleMenu} variants={grayedOut} initial="hidden" animate={isMenuOpen ? 'visible' : 'hidden'} className="absolute right-0 top-0 bottom-0 left-0 bg-black z-0"></motion.div>
         <CheckoutButton onClick={toggleMenu} className="absolute z-10 right-0 top-0 mr-8 mt-8" count={orderItems.length} />
-        <motion.div variants={menu} initial="hidden" animate={isMenuOpen ? 'visible': 'hidden'} className="z-10 p-4 absolute right-0 top-0 bottom-0 bg-white" style={{ width: 500 }}>
+        <motion.div variants={menu} initial="hidden" animate={isMenuOpen ? 'visible' : 'hidden'} className="z-10 p-4 absolute right-0 top-0 bottom-0 bg-white" style={{ width: 500 }}>
           <button onClick={toggleMenu} ><IconX color={colors.black} /></button>
           <div className="p-12">
             <CheckoutForm items={orderItems} />

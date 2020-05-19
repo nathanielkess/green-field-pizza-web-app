@@ -1,10 +1,32 @@
-import React from 'react';
-import {useStripe, useElements, CardElement,  } from '@stripe/react-stripe-js';
-import { centsToCurrency } from '../../utils/cents-to-currency';
+import React, { useState, useReducer } from 'react';
+import { useStripe, useElements, CardElement, } from '@stripe/react-stripe-js';
+import { centsToCurrency } from './../../utils/cents-to-currency';
+import { ButtonSecondary } from './../../../design-system/components/button-secondary';
+import { colors } from './../../../design-system/styles';
 
 
-// const createPaymentEndPoint = 'http://ec2-34-227-31-122.compute-1.amazonaws.com:3000/payment/create';
-const createChargeEndPoint = 'http://localhost:3000/payment/create';
+const createChargeEndPoint = 'http://ec2-34-227-31-122.compute-1.amazonaws.com:3000/payment/create';
+// const createChargeEndPoint = 'http://localhost:3000/payment/create';
+
+const CARD_OPTIONS = {
+  iconStyle: 'solid',
+  style: {
+    base: {
+      iconColor: colors.black,
+      color: colors.black,
+      fontWeight: 500,
+      fontFamily: 'Merriweather Sans", sans-serif',
+      fontSize: '16px',
+      fontSmoothing: 'antialiased',
+      ':-webkit-autofill': { color: colors.black },
+      '::placeholder': { color: colors.black },
+    },
+    // invalid: {
+    //   iconColor: colors.orange.m,
+    //   color: colors.orange.m,
+    // },
+  },
+};
 
 const TwoUp = ({
   left,
@@ -17,22 +39,44 @@ const TwoUp = ({
   </div>
 
 const calculateTotal = (items) => {
-  return items.reduce((a,c) => {
+  return items.reduce((a, c) => {
     const subItems = (!!c.subItems) ? calculateTotal(c.subItems) : 0;
     return a + c.price + subItems
   }, 0);
 }
 
-const CartItem = ({item, className }) =>
+const CartItem = ({ item, className }) =>
   <div className={`${className}`}>
     <TwoUp
       left={<p className="copy-bold">{item.name}</p>}
-      right={<p className="copy-bold">{ centsToCurrency(item.total)}</p>}
+      right={<p className="copy-bold">{centsToCurrency(item.total)}</p>}
     />
     <p className="copy">{item.toppingsCount} toppings</p>
   </div>
 
 
+
+const reducer = (state, { type, payload }) => {
+  switch (type) {
+    case 'STEP_CHANGED':
+      return {
+        ...state,
+        checkoutStep: payload.step
+      };
+    case 'NAME_CHANGED':
+      return {
+        ...state,
+        name: payload.value,
+      }
+    case 'ADDRESS_CHANGED':
+      return {
+        ...state,
+        address: payload.value,
+      }
+    default:
+      return state;
+  }
+}
 
 
 
@@ -48,118 +92,113 @@ export const CheckoutForm = ({ items = [] }) => {
     delivery: deliveryFee,
     items: items.map((item) => ({
       ...item,
-      total: calculateTotal([item]) ,
+      total: calculateTotal([item]),
       toppingsCount: item.subItems.length,
     }))
   }
 
+
+  const [state, dispatch] = useReducer(reducer, {
+    checkoutStep: 0,
+    name: '',
+    address: '',
+  })
+
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const name = 'John Green';
+    const { token } = await stripe.createToken(elements.getElement(CardElement));
+    stripe
+      .createPaymentMethod({
+        type: 'card',
+        card: elements.getElement(CardElement),
+      })
+      .then(function ({ error, paymentMethod }) {
+        console.log({ paymentMethod });
 
-    // const r = await fetch(createChargeEndPoint, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json',
-    //     }
-    // });
+        if (!!error) throw new Error(error);
 
-
-    try {
-
-      const { token } = await stripe.createToken(elements.getElement(CardElement));
-
-      await fetch(createChargeEndPoint, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
+        fetch(createChargeEndPoint, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
           },
-        body: JSON.stringify({
-          token: token,
-          hour: '5:00pm',
-          addressDelivery: '121 Happy Street',
-          total: summary.total,
+          body: JSON.stringify({
+            token: token,
+            addressDelivery: state.address,
+            name: state.name,
+            total: summary.total,
+            paymentMethodId: paymentMethod.id,
+          })
+        }).then((result) => {
+          console.log('create payment result', { result })
         })
-      });
-      console.log('created!');
-
-    } catch (error) {
-      console.log('error!', {error});
-    }
-
-
-
-
-
-  //   try {
-  //     await fetch(CreatePaymentEndPoint, {
-  //       method: "POST",
-  //       headers: {
-  //         'Accept': 'application/json',
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({
-  //         name: name,
-  //         hour: '5:00pm',
-  //         addressDelivery: '121 Happy Street',
-  //         total: summary.total,
-  //       })
-  //     });
-
-
-  //     await stripe.createPaymentMethod({
-  //       type: 'card',
-  //       card: elements.getElement(CardElement),
-  //       billing_details: {
-  //         name: name,
-  //       },
-  //     }).then(() => {
-  //       console.log('success!');
-  //     })
-
-  //   } catch (error) {
-  //     console.log('Create payment error', error);
-  //   }
+      }).catch((error) => {
+        console.log('error from create payment intent', { error });
+      })
   };
 
+  const handleChangeFor = (property) => (event) => {
+    dispatch({ type: `${property}_CHANGED`, payload: { value: event.target.value } })
+  }
 
-
-
-
+  const changeStepTo = (step) => () => {
+    dispatch({ type: 'STEP_CHANGED', payload: { step } })
+  }
 
   return (
     <div>
-      <p className="heading-2">Items</p>
       {
-        (items.length === 0)
-          ? <p>Your cart is empty</p>
-          : <>
-            <div className="border-t border-gray-m pt-6 mt-6">
-              {summary.items.map((item, index) => (
-                <CartItem className="mb-6" key={index} item={item} />
-              ))}
-            </div>
-            <div className="border-t border-gray-m py-6">
-              <TwoUp left={<p className="copy-bold">Subtotal</p>} right={<p className="copy-bold">{ centsToCurrency(summary.subTotal) }</p>} />
-              <TwoUp left={<p>Delivery</p>} right={<p>{centsToCurrency(summary.delivery)}</p>} />
-            </div>
-            <div className="border-t border-gray-m pt-6">
-              <TwoUp left={<p className="heading-3">Total</p>} right={<p className="heading-3">{ centsToCurrency(summary.total) }</p>} />
-            </div>
-          </>
+        state.checkoutStep === 0 &&
+        <>
+          <p className="heading-2">Items</p>
+          <div className="border-t border-gray-m pt-6 mt-6">
+            {summary.items.map((item, index) => (
+              <CartItem className="mb-6" key={index} item={item} />
+            ))}
+          </div>
+          <div className="border-t border-gray-m py-6">
+            <TwoUp left={<p className="copy-bold">Subtotal</p>} right={<p className="copy-bold">{centsToCurrency(summary.subTotal)}</p>} />
+            <TwoUp left={<p>Delivery</p>} right={<p>{centsToCurrency(summary.delivery)}</p>} />
+          </div>
+          <div className="border-t border-gray-m pt-6">
+            <TwoUp left={<p className="heading-3">Total</p>} right={<p className="heading-3">{centsToCurrency(summary.total)}</p>} />
+          </div>
+          <ButtonSecondary className="m-auto mt-20" onClick={changeStepTo(1)}>Payment Details</ButtonSecondary>
+        </>
       }
-
-
-      <form onSubmit={handleSubmit}>
-        <label>
-          Card details
-          <CardElement />
-        </label>
-        {/* <ButtonSecondary disabled={!stripe}>Pay now</ButtonSecondary> */}
-        <button disabled={!stripe}>Pay Now</button>
-      </form>
+      {
+        state.checkoutStep === 1 &&
+        <>
+          <p className="heading-2">Deliver</p>
+          <div className="border-t border-gray-m pt-6 mt-6">
+            <form onSubmit={handleSubmit}>
+              <label className="block mt-3">
+                <p>Name</p>
+                <input onChange={handleChangeFor('NAME')} value={state.name} className="px-3 py-1 bg-gray-l rounded-md block border-box w-full" type="text" />
+              </label>
+              <label className="block mt-6">
+                <p>Address</p>
+                <input onChange={handleChangeFor('ADDRESS')} value={state.address} className="px-3 py-1 bg-gray-l rounded-md block border-box w-full" type="text" />
+              </label>
+              <label className="block mt-6">
+                <p>Card details</p>
+                <div className="px-3 py-2 bg-gray-l rounded-md block border-box w-full">
+                  <CardElement options={CARD_OPTIONS} />
+                </div>
+              </label>
+              <div className="border-t border-gray-m pt-6 mt-12">
+                <TwoUp left={<p className="heading-3">Total</p>} right={<p className="heading-3">{centsToCurrency(summary.total)}</p>} />
+              </div>
+              <div className="mt-20 flex flex-row justify-center items-center">
+                <span onClick={changeStepTo(0)}>Back</span>
+                <ButtonSecondary className="ml-4" disabled={!stripe}>Order</ButtonSecondary>
+              </div>
+            </form>
+          </div>
+        </>
+      }
     </div>
   );
 }
