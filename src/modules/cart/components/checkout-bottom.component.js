@@ -1,16 +1,16 @@
 import React from 'react';
 import { ButtonIcon } from '../../../design-system/components/button-icon';
-import { IconMotorcycle } from '../../../design-system/components/icon-motorcycle';
+import { Icon } from '../../../design-system/components/icon';
 import { colors } from '../../../design-system/styles';
 
 export const CheckoutButton = ({
   count = 0,
   className = '',
-  onClick = () => {},
-}) => 
+  onClick = () => { },
+}) =>
   <div className={`inline-flex items-center ${className}`}>
     {count}
-    <ButtonIcon onClick={onClick} className="ml-2" Icon={<IconMotorcycle color={colors.white} width={30} height={30} />}>
+    <ButtonIcon onClick={onClick} className="ml-2" Icon={<Icon name="motorcycle" color={colors.white} size={30} />}>
       Checkout
     </ButtonIcon>
   </div>

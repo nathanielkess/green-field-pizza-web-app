@@ -4,7 +4,7 @@ import { Button } from '@storybook/react/demo';
 import { ButtonPrimary } from './../components/button-primary';
 import { ButtonPill } from './../components/button-pill';
 import { ButtonSecondary } from './../components/button-secondary';
-import { IconMotorcycle } from '././../components/icon-motorcycle';
+import { Icon } from '././../components/icon';
 import { colors } from './../styles'
 import { ButtonIcon } from './../components/button-icon';
 
@@ -23,14 +23,14 @@ export const Secondary = () => (
   </>
 );
 
-export const Icon = () => (
+export const Icons = () => (
   <>
-    <ButtonIcon 
-      onClick={action('clicked')} 
+    <ButtonIcon
+      onClick={action('clicked')}
       className="text-center"
-      Icon={<IconMotorcycle color={colors.white} width={40} height={40} />}
-      >
-        Icon Button
+      Icon={<Icon name="motorcycle" color={colors.white} size={40} />}
+    >
+      Icon Button
     </ButtonIcon>
   </>
 );

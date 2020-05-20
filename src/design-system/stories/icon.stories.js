@@ -1,8 +1,5 @@
 import React from 'react';
-import { IconX  } from './../components/icon-x';
-// import { colors } from './../ui/styles/'
-import { IconLeftArrow } from './../components/icon-left-arrow';
-import { IconMotorcycle } from './../components/icon-motorcycle';
+import { Icon } from '../components/icon';
 
 export default {
   title: 'Icons',
@@ -13,9 +10,9 @@ export default {
 export const Icons = () => {
   return (
     <div>
-      <IconX />
-      <IconLeftArrow />
-      <IconMotorcycle />
+      <Icon name="close" size={40} />
+      <Icon name="arrow-left" size={40} />
+      <Icon name="motorcycle" size={40} />
     </div>
   );
 };

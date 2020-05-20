@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
-import { IconX } from './../design-system/components/icon-x';
+import { Icon } from './../design-system/components/icon';
 import { colors } from './../design-system/styles';
 
 import { CheckoutButton, CheckoutForm } from './../modules/cart'
@@ -61,7 +61,7 @@ function App() {
         <motion.div onClick={toggleMenu} variants={grayedOut} initial="hidden" animate={isMenuOpen ? 'visible' : 'hidden'} className="absolute right-0 top-0 bottom-0 left-0 bg-black z-0"></motion.div>
         <CheckoutButton onClick={toggleMenu} className="absolute z-10 right-0 top-0 mr-8 mt-8" count={orderItems.length} />
         <motion.div variants={menu} initial="hidden" animate={isMenuOpen ? 'visible' : 'hidden'} className="z-10 p-4 absolute right-0 top-0 bottom-0 bg-white" style={{ width: 500 }}>
-          <button onClick={toggleMenu} ><IconX color={colors.black} /></button>
+          <button onClick={toggleMenu}><Icon name="close" size={40} color={colors.black} /></button>
           <div className="p-12">
             <CheckoutForm items={orderItems} />
           </div>
