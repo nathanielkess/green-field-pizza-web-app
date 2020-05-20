@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState, useReducer, useImperativeHandle } from 'react';
 import { useStripe, useElements, CardElement, } from '@stripe/react-stripe-js';
 import { centsToCurrency } from './../../utils/cents-to-currency';
 import { ButtonSecondary } from './../../../design-system/components/button-secondary';
@@ -80,7 +80,10 @@ const reducer = (state, { type, payload }) => {
 
 
 
-export const CheckoutForm = ({ items = [] }) => {
+export const CheckoutForm = React.forwardRef(({
+  items = [],
+  onCheckoutComplete = () => { },
+}, ref) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -114,10 +117,7 @@ export const CheckoutForm = ({ items = [] }) => {
         card: elements.getElement(CardElement),
       })
       .then(function ({ error, paymentMethod }) {
-        console.log({ paymentMethod });
-
         if (!!error) throw new Error(error);
-
         fetch(createChargeEndPoint, {
           method: 'POST',
           headers: {
@@ -131,10 +131,12 @@ export const CheckoutForm = ({ items = [] }) => {
             total: summary.total,
             paymentMethodId: paymentMethod.id,
           })
-        }).then((result) => {
-          console.log('create payment result', { result })
         })
-      }).catch((error) => {
+        console.log('complete');
+        onCheckoutComplete();
+        changeStepTo(2)();
+      })
+      .catch((error) => {
         console.log('error from create payment intent', { error });
       })
   };
@@ -146,6 +148,8 @@ export const CheckoutForm = ({ items = [] }) => {
   const changeStepTo = (step) => () => {
     dispatch({ type: 'STEP_CHANGED', payload: { step } })
   }
+
+  useImperativeHandle(ref, () => ({ goToStep: changeStepTo }));
 
   return (
     <div>
@@ -199,6 +203,13 @@ export const CheckoutForm = ({ items = [] }) => {
           </div>
         </>
       }
+      {
+        state.checkoutStep === 2 &&
+        <>
+          <p className="heading-2">Order Complete</p>
+          <p className="copy-bold">Thank you</p>
+        </>
+      }
     </div>
   );
-}
+});

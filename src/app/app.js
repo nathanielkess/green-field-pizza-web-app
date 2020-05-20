@@ -12,7 +12,6 @@ import { BuildPizza, pizzas } from './../modules/products';
 const stripePromise = loadStripe("pk_test_rKarX4mhDwJwrWlfc6yUnoQh00qraD4ezM");
 
 
-
 const menu = {
   visible: { marginRight: 0 },
   hidden: { marginRight: -500 },
@@ -23,30 +22,28 @@ const grayedOut = {
 }
 
 
-
-
 function App() {
-
-  useEffect(() => {
-    document.body.style.overflowX = 'hidden';
-  }, []);
+  const checkOutFormRef = React.createRef();
+  useEffect(() => { document.body.style.overflowX = 'hidden'; }, []);
 
   const [orderItems, setOrderItems] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const addToOrder = (item) => {
-
-    setOrderItems([
-      ...orderItems,
-      item,
-    ])
+    setOrderItems([...orderItems, item]);
   }
 
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen)
+    checkOutFormRef.current.goToStep(0)();
+  };
   const selectedPizza = pizzas[0];
 
+  const handleCheckOutFormComplete = () => {
+    console.log('checkout form complete');
+    setOrderItems([]);
+  }
 
 
   return (
@@ -63,7 +60,7 @@ function App() {
         <motion.div variants={menu} initial="hidden" animate={isMenuOpen ? 'visible' : 'hidden'} className="z-10 p-4 absolute right-0 top-0 bottom-0 bg-white" style={{ width: 500 }}>
           <button onClick={toggleMenu}><Icon name="close" size={40} color={colors.black} /></button>
           <div className="p-12">
-            <CheckoutForm items={orderItems} />
+            <CheckoutForm ref={checkOutFormRef} onCheckoutComplete={handleCheckOutFormComplete} items={orderItems} />
           </div>
         </motion.div>
       </Elements>
