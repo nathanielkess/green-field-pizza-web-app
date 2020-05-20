@@ -8,6 +8,7 @@ import { colors } from './../design-system/styles';
 
 import { CheckoutButton, CheckoutForm } from './../modules/cart'
 import { BuildPizza, pizzas } from './../modules/products';
+import { Logo } from './components/logo';
 
 const stripePromise = loadStripe("pk_test_rKarX4mhDwJwrWlfc6yUnoQh00qraD4ezM");
 
@@ -48,6 +49,7 @@ function App() {
 
   return (
     <div>
+      <Logo className="absolute ml-10 mt-10" />
       <Elements stripe={stripePromise}>
         <div className="z-10 relative flex flex-col">
           <div className="self-center max-w-xl">
