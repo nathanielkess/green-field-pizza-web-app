@@ -78,6 +78,13 @@ const reducer = (state, { type, payload }) => {
   }
 }
 
+const getTime = () => {
+  const today = new Date();
+  return today.toLocaleDateString("en-CA", {
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+}
 
 
 export const CheckoutForm = React.forwardRef(({
@@ -130,6 +137,7 @@ export const CheckoutForm = React.forwardRef(({
             name: state.name,
             total: summary.total,
             paymentMethodId: paymentMethod.id,
+            hour: getTime(),
           })
         })
         console.log('complete');
