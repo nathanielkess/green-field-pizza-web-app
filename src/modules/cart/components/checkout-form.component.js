@@ -171,13 +171,13 @@ export const CheckoutForm = React.forwardRef(({
             ))}
           </div>
           <div className="border-t border-gray-m py-6">
-            <TwoUp left={<p className="copy-bold">Subtotal</p>} right={<p className="copy-bold">{centsToCurrency(summary.subTotal)}</p>} />
-            <TwoUp left={<p>Delivery</p>} right={<p>{centsToCurrency(summary.delivery)}</p>} />
+            <TwoUp left={<p className="copy-bold">Subtotal</p>} right={<p data-cy-id="text_subTotal" className="copy-bold">{centsToCurrency(summary.subTotal)}</p>} />
+            <TwoUp left={<p>Delivery</p>} right={<p data-cy-id="text_deliveryFee">{centsToCurrency(summary.delivery)}</p>} />
           </div>
           <div className="border-t border-gray-m pt-6">
-            <TwoUp left={<p className="heading-3">Total</p>} right={<p className="heading-3">{centsToCurrency(summary.total)}</p>} />
+            <TwoUp left={<p className="heading-3">Total</p>} right={<p data-cy-id="text_paymentTotal" className="heading-3">{centsToCurrency(summary.total)}</p>} />
           </div>
-          <ButtonSecondary className="m-auto mt-20" onClick={changeStepTo(1)}>Payment Details</ButtonSecondary>
+          <ButtonSecondary testId="button_continuePayment" className="m-auto mt-20" onClick={changeStepTo(1)}>Payment Details</ButtonSecondary>
         </>
       }
       {
@@ -188,24 +188,24 @@ export const CheckoutForm = React.forwardRef(({
             <form onSubmit={handleSubmit}>
               <label className="block mt-3">
                 <p>Name</p>
-                <input onChange={handleChangeFor('NAME')} value={state.name} className="px-3 py-1 bg-gray-l rounded-md block border-box w-full" type="text" />
+                <input data-cy-id="input_name" onChange={handleChangeFor('NAME')} value={state.name} className="px-3 py-1 bg-gray-l rounded-md block border-box w-full" type="text" />
               </label>
               <label className="block mt-6">
                 <p>Address</p>
-                <input onChange={handleChangeFor('ADDRESS')} value={state.address} className="px-3 py-1 bg-gray-l rounded-md block border-box w-full" type="text" />
+                <input data-cy-id="input_address" onChange={handleChangeFor('ADDRESS')} value={state.address} className="px-3 py-1 bg-gray-l rounded-md block border-box w-full" type="text" />
               </label>
               <label className="block mt-6">
                 <p>Card details</p>
-                <div className="px-3 py-2 bg-gray-l rounded-md block border-box w-full">
-                  <CardElement options={CARD_OPTIONS} />
+                <div data-cy-id="input_cardDetails" className="px-3 py-2 bg-gray-l rounded-md block border-box w-full">
+                  <CardElement id="stripeElement_card" options={CARD_OPTIONS} />
                 </div>
               </label>
               <div className="border-t border-gray-m pt-6 mt-12">
-                <TwoUp left={<p className="heading-3">Total</p>} right={<p className="heading-3">{centsToCurrency(summary.total)}</p>} />
+                <TwoUp left={<p className="heading-3">Total</p>} right={<p data-cy-id="text_paymentTotal" className="heading-3">{centsToCurrency(summary.total)}</p>} />
               </div>
               <div className="mt-20 flex flex-row justify-center items-center">
-                <span onClick={changeStepTo(0)}>Back</span>
-                <ButtonSecondary className="ml-4" disabled={!stripe}>Order</ButtonSecondary>
+                <span data-cy-id="button_back" onClick={changeStepTo(0)}>Back</span>
+                <ButtonSecondary testId="button_confirmOrder" className="ml-4" disabled={!stripe}>Order</ButtonSecondary>
               </div>
             </form>
           </div>
@@ -214,7 +214,7 @@ export const CheckoutForm = React.forwardRef(({
       {
         state.checkoutStep === 2 &&
         <>
-          <p className="heading-2">Order Complete</p>
+          <p data-cy-id="text_orderConfirmed" className="heading-2">Order Complete</p>
           <p className="copy-bold">Thank you</p>
         </>
       }

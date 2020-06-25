@@ -9,8 +9,8 @@ export const CheckoutButton = ({
   onClick = () => { },
 }) =>
   <div className={`inline-flex items-center ${className}`}>
-    {count}
-    <ButtonIcon onClick={onClick} className="ml-2" Icon={<Icon name="motorcycle" color={colors.white} size={30} />}>
-      Checkout
+    <span data-cy-id="text_pizzaUnits">{count}</span>
+    <ButtonIcon onClick={onClick} testId="button_checkout" className="ml-2" Icon={<Icon name="motorcycle" color={colors.white} size={30} />}>
+	  Checkout
     </ButtonIcon>
   </div>

@@ -14,7 +14,7 @@ export const BuildPizza = ({
   pizza = { name: "Plain Cheese", price: 1000, description: 'Delicious!' },
   onAddToOrder = () => {},
 }) => {
-  
+
   const [toppings, setToppings] = useState(toppingsData.map(topping => ({ ...topping, selected: false })));
 
 
@@ -34,27 +34,27 @@ export const BuildPizza = ({
     }, pizza.price);
 
 
-  const addToOrder = () => { 
+  const addToOrder = () => {
     const item = {
       name: pizza.name,
       price: pizza.price,
       subItems: toppings.filter(topping => topping.selected)
     }
-    onAddToOrder(item); 
+    onAddToOrder(item);
   }
 
   return (
     <div className={className}>
       <p className="heading-1">{pizza.name}</p>
       <div className="flex flex-wrap mt-4">
-        { toppings.map((topping, i) => 
-          <ButtonPill key={i} onClick={toggleTopping(i)} isOn={topping.selected} className="mr-4 mt-4">{topping.name}</ButtonPill>
+        { toppings.map((topping, i) =>
+          <ButtonPill testId={topping.id} key={i} onClick={toggleTopping(i)} isOn={topping.selected} className="mr-4 mt-4">{topping.name}</ButtonPill>
         )}
       </div>
       <p className="mt-6">{pizza.description}</p>
       <div className="mt-6">
-        <ButtonPrimary className="mr-4" onClick={addToOrder}>Add To Order</ButtonPrimary>
-        <span className="heading-3">{centsToCurrency(getTotal())}</span>
+        <ButtonPrimary testId="button_addPizza" className="mr-4" onClick={addToOrder}>Add To Order</ButtonPrimary>
+        <span data-cy-id="text_total" className="heading-3">{centsToCurrency(getTotal())}</span>
       </div>
     </div>
   );
