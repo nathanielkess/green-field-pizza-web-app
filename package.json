@@ -10,6 +10,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "cross-env": "^7.0.2",
+    "eslint-plugin-cypress": "^2.11.1",
     "framer-motion": "^1.10.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -25,7 +26,8 @@
     "build:css": "postcss src/design-system/styles/tailwind.css -o src/design-system/styles/main.css",
     "watch:css": "postcss src/design-system/styles/tailwind.css -o src/design-system/styles/main.css",
     "storybook": "npm run watch:css && start-storybook",
-    "build-storybook": "npm run build:css && build-storybook -s public"
+    "build-storybook": "npm run build:css && build-storybook -s public",
+    "cypress:run": "cypress run --spec cypress/integration/*.spec.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -48,8 +50,9 @@
     "@storybook/addon-links": "^5.3.18",
     "@storybook/preset-create-react-app": "^2.1.1",
     "@storybook/react": "^5.3.18",
-    "autoprefixer": "^9.7.6",
+    "autoprefixer": "^9.8.0",
     "babel-loader": "^8.1.0",
+    "cypress": "^4.9.0",
     "postcss-cli": "^7.1.0",
     "tailwindcss": "^1.3.5"
   }
